@@ -4,11 +4,11 @@ defmodule ThankYouStarsSpec do
 
   before do
     packages =
-      %{
-        "espec": "/hoge/espec",
-        "phoenix": "/hoge/phoenix"
-      }
-    allow(Mix.Project).to accept(:deps_paths, fn -> packages end)
+      [
+        {:espec, "~> 1.4.6", [only: :test]},
+        {:phoenix, "~> 3.0"}
+      ]
+    allow(Mix.Project).to accept(:config, fn -> [deps: packages] end)
     allow(HTTPoison).to accept(:get, fn
       "https://hex.pm/packages/espec" -> {:ok, %{body: shared.espec_hexpm_html}}
       "https://hex.pm/packages/phoenix" -> {:ok, %{body: shared.phoenix_hexpm_html}}

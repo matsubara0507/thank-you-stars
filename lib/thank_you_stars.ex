@@ -22,8 +22,10 @@ defmodule ThankYouStars do
   end
 
   def load_deps_packages do
-    Mix.Project.deps_paths
-      |> Map.keys()
+    Mix.Project.config
+      |> Keyword.get(:deps)
+      |> Enum.map(&(Tuple.to_list(&1) |> List.first()))
+      |> Enum.filter(&(!is_nil(&1)))
       |> Enum.map(&Atom.to_string/1)
   end
 
