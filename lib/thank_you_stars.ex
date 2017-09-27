@@ -5,6 +5,22 @@ defmodule ThankYouStars do
   require OK
   import OK, only: ["~>>": 2]
 
+  def load_token do
+    File.read(token_path())
+      ~>> poison_decode()
+      ~>> Map.fetch("token")
+  end
+
+  defp token_path,
+    do: Path.join [System.user_home, ".thank-you-stars.json"]
+
+  defp poison_decode(str) do
+    case Poison.decode(str) do
+      {:error, :invalid, _} -> {:error, :invalid}
+      other -> other
+    end
+  end
+
   def load_deps_packages do
     Mix.Project.deps_paths
       |> Map.keys()

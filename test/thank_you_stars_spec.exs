@@ -21,6 +21,40 @@ defmodule ThankYouStarsSpec do
     {:shared, deps_packages: packages}
   end
 
+  describe "load_token" do
+    context "correct pattern" do
+      let json:
+        """
+        {
+            "token": "XXX"
+        }
+        """
+      before do: allow(File).to accept(:read, fn _ -> {:ok, json()} end)
+      it do: expect load_token() |> to(eq {:ok, "XXX"})
+    end
+
+    context "not found .thank-you-stars.json" do
+      before do: allow(File).to accept(:read, fn _ -> {:error, nil} end)
+      it do: expect load_token() |> to(eq {:error, nil})
+    end
+
+    context "no json" do
+      before do: allow(File).to accept(:read, fn _ -> {:ok, ""} end)
+      it do: expect load_token() |> to(eq {:error, :invalid})
+    end
+
+    context "not have token field" do
+      let json:
+        """
+        {
+            "taken": "XXX"
+        }
+        """
+      before do: allow(File).to accept(:read, fn _ -> {:ok, json()} end)
+      it do: expect load_token() |> to(eq :error)
+    end
+  end
+
   describe "load_deps_packages" do
     it do: expect load_deps_packages() |> to(eq ["espec", "phoenix"])
   end

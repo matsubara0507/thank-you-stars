@@ -9,7 +9,7 @@ defmodule Mix.Tasks.ThankYouStars do
     Mix.Task.run "app.start"
 
     OK.try do
-      token <- load_token()
+      token <- ThankYouStars.load_token()
     after
       client = Tentacat.Client.new(%{access_token: token})
       ThankYouStars.load_deps_packages
@@ -18,13 +18,4 @@ defmodule Mix.Tasks.ThankYouStars do
       emessage -> IO.puts emessage
     end
   end
-
-  defp load_token do
-    File.read(token_path())
-      ~>> Poison.decode
-      ~>> Map.fetch("token")
-  end
-
-  defp token_path,
-    do: Path.join [System.user_home, ".thank-you-stars.json"]
 end
