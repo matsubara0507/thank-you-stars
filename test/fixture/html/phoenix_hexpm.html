@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Productive. Reliable. Fast. A productive web framework that
+does not compromise speed and maintainability.">
+
+    <title>phoenix | Hex</title>
+
+<meta content="phoenix" property="og:title"><meta content="website" property="og:type"><meta content="https://hex.pm/packages/phoenix" property="og:url"><meta content="https://hex.pm/images/favicon-160-93fa091b05b3e260e24e08789344d5ea.png?vsn=d" property="og:image"><meta content="160" property="og:image:width"><meta content="160" property="og:image:height"><meta content="Productive. Reliable. Fast. A productive web framework that
+does not compromise speed and maintainability." property="og:description"><meta content="Hex" property="og:site_name">
+    <link rel="search" type="application/opensearchdescription+xml" title="Hex" href="/hexsearch.xml">
+    <link rel="stylesheet" href="/css/app-661a60d6a903733342264e66283c2120.css?vsn=d">
+    <link rel="shortcut icon" href="/favicon-acecbef334adb3141ce09929f639155c.png?vsn=d">
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+            <img src="/images/hex-a56f59a0c6bb92a0e2850ccd555f7525.png?vsn=d" srcset="/images/hex-a56f59a0c6bb92a0e2850ccd555f7525.png?vsn=d 1x, /images/hex@2-844f591d7bbac6a50d895110a643c670.png?vsn=d 2x, /images/hex@3-b88c46c5ec4e807f1daef99e4dd1f231.png?vsn=d 3x" alt="hex logo">
+          </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form pull-left" role="search" action="/packages">
+             <div class="input-group">
+                <input placeholder="Find packages" name="search" type="text" autofocus class="form-control" value="">
+                <input type="hidden" name="sort" value="recent_downloads">
+
+                <div class="input-group-btn">
+                  <button type="submit" class="btn btn-search" tabindex="1">
+<svg aria-hidden="aria-hidden" class="glyphicon glyphicon-search" version="1.1" viewBox="0 0 1200 1200"><g transform="translate(0, 1200) scale(1, -1)"><path d="M500 1191q100 0 191 -39t156.5 -104.5t104.5 -156.5t39 -191l-1 -2l1 -5q0 -141 -78 -262l275 -274q23 -26 22.5 -44.5t-22.5 -42.5l-59 -58q-26 -20 -46.5 -20t-39.5 20l-275 274q-119 -77 -261 -77l-5 1l-2 -1q-100 0 -191 39t-156.5 104.5t-104.5 156.5t-39 191 t39 191t104.5 156.5t156.5 104.5t191 39zM500 1022q-88 0 -162 -43t-117 -117t-43 -162t43 -162t117 -117t162 -43t162 43t117 117t43 162t-43 162t-117 117t-162 43z"></path></g></svg>                  </button>
+                </div>
+             </div>
+          </form>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/packages">Packages</a></li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-header menu-dropdown-header">Mix</li>
+                <li><a href="/docs/usage">Usage</a></li>
+                <li><a href="/docs/publish">Publishing packages</a></li>
+                <li><a href="/docs/tasks">Tasks</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header menu-dropdown-header">Rebar3</li>
+                <li><a href="/docs/rebar3_usage">Usage</a></li>
+                <li><a href="/docs/rebar3_publish">Publishing packages</a></li>
+                <li><a href="https://www.rebar3.org/v3.0/docs/hex-package-management">Tasks</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/docs/private">Private packages</a></li>
+                <li><a href="/policies">Policies</a></li>
+                <li><a href="/docs/mirrors">Mirrors</a></li>
+                <li><a href="/docs/public_keys">Public keys</a></li>
+                <li><a href="https://github.com/hexpm/specifications">Specifications</a></li>
+              </ul>
+            </li>
+
+              <li><a href="/login">Log in</a></li>
+
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+      <div class="container">
+      </div>
+
+
+    <div class="container package-view">
+
+<h2 class="package-title">phoenix
+          <span class="version">1.3.0</span>
+
+</h2>
+
+
+  <div class="description">
+<p>Productive. Reliable. Fast. A productive web framework that does not compromise speed and maintainability.</p>
+  </div>
+
+<div class="row">
+  <div class="col-md-9">
+      <h3>Maintainers</h3>
+      <span class="maintainers">Chris McCord, José Valim, Lance Halvorsen, Gary Rennie, Jason Stiebs, Eric Meadows-Jönsson, Sonny Scroggin</span>
+
+      <h3>Links</h3>
+      <ul class="links">
+          <li><a href="https://hexdocs.pm/phoenix/">Online documentation</a> (<a href="https://repo.hex.pm/docs/phoenix-1.3.0.tar.gz">download</a>)</li>
+
+          <li><a href="https://github.com/phoenixframework/phoenix" rel="nofollow">github</a></li>
+      </ul>
+
+      <h3>License</h3>
+      <span class="license">MIT</span>
+
+    <div class="stats clearfix">
+      <ul>
+        <li>
+<svg aria-hidden="aria-hidden" class="octicon octicon-calendar stat-icon stat-icon-calendar" version="1.1" viewBox="0 0 896 1024"><g transform="translate(0, 800) scale(1, -1)"><path d="M768 704h-64v-96c0-18-14-32-32-32H544c-18 0-32 14-32 32v96H320v-96c0-18-14-32-32-32H160c-18 0-32 14-32 32v96H64c-35 0-64-29-64-64v-704c0-35 29-64 64-64h704c35 0 64 29 64 64V640c0 35-29 64-64 64z m0-768H64V512h704v-576zM256 640h-64V768h64v-128z m384 0h-64V768h64v-128zM320 384h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 256h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 128h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z"></path></g></svg>          <span class="stat-info">
+            <span class="count-info">
+ 154 715            </span> <br>
+            <span class="stat-text">downloads <br> this version</span>
+          </span>
+        </li>
+        <li>
+<svg aria-hidden="aria-hidden" class="octicon octicon-calendar stat-icon stat-icon-calendar" version="1.1" viewBox="0 0 896 1024"><g transform="translate(0, 800) scale(1, -1)"><path d="M768 704h-64v-96c0-18-14-32-32-32H544c-18 0-32 14-32 32v96H320v-96c0-18-14-32-32-32H160c-18 0-32 14-32 32v96H64c-35 0-64-29-64-64v-704c0-35 29-64 64-64h704c35 0 64 29 64 64V640c0 35-29 64-64 64z m0-768H64V512h704v-576zM256 640h-64V768h64v-128z m384 0h-64V768h64v-128zM320 384h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 256h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 128h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z"></path></g></svg>          <span class="stat-info">
+            <span class="count-info">
+7 633            </span> <br>
+            <span class="stat-text">downloads <br> yesterday</span>
+          </span>
+        </li>
+        <li>
+<svg aria-hidden="aria-hidden" class="octicon octicon-calendar stat-icon stat-icon-calendar" version="1.1" viewBox="0 0 896 1024"><g transform="translate(0, 800) scale(1, -1)"><path d="M768 704h-64v-96c0-18-14-32-32-32H544c-18 0-32 14-32 32v96H320v-96c0-18-14-32-32-32H160c-18 0-32 14-32 32v96H64c-35 0-64-29-64-64v-704c0-35 29-64 64-64h704c35 0 64 29 64 64V640c0 35-29 64-64 64z m0-768H64V512h704v-576zM256 640h-64V768h64v-128z m384 0h-64V768h64v-128zM320 384h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 256h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 128h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z"></path></g></svg>          <span class="stat-info">
+            <span class="count-info">
+40 814            </span> <br>
+            <span class="stat-text">downloads <br> last 7 days</span>
+          </span>
+        </li>
+        <li>
+<svg aria-hidden="aria-hidden" class="octicon octicon-calendar stat-icon stat-icon-calendar" version="1.1" viewBox="0 0 896 1024"><g transform="translate(0, 800) scale(1, -1)"><path d="M768 704h-64v-96c0-18-14-32-32-32H544c-18 0-32 14-32 32v96H320v-96c0-18-14-32-32-32H160c-18 0-32 14-32 32v96H64c-35 0-64-29-64-64v-704c0-35 29-64 64-64h704c35 0 64 29 64 64V640c0 35-29 64-64 64z m0-768H64V512h704v-576zM256 640h-64V768h64v-128z m384 0h-64V768h64v-128zM320 384h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 256h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 128h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64zM192 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z m128 0h-64v64h64v-64z"></path></g></svg>          <span class="stat-info">
+            <span class="count-info">
+2 686 929            </span> <br>
+            <span class="stat-text">downloads <br> all time</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Versions (67)</h3>
+        <ul id="versions" class="version-dependency-list">
+            <li>
+    <a href="/packages/phoenix/1.3.0"><strong>1.3.0</strong></a>
+July 28, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.3.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.3.0-rc.3"><strong>1.3.0-rc.3</strong></a>
+July 24, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.3.0-rc.3/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.3.0-rc.2"><strong>1.3.0-rc.2</strong></a>
+May 15, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.3.0-rc.2/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.3.0-rc.1"><strong>1.3.0-rc.1</strong></a>
+March 14, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.3.0-rc.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.3.0-rc.0"><strong>1.3.0-rc.0</strong></a>
+March 2, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.3.0-rc.0/">docs</a>)
+
+  </li>
+
+        </ul>
+
+          <ul id="older-versions" class="collapse version-dependency-list">
+  <li>
+    <a href="/packages/phoenix/1.2.5"><strong>1.2.5</strong></a>
+July 27, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.2.5/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.2.4"><strong>1.2.4</strong></a>
+May 15, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.2.4/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.2.3"><strong>1.2.3</strong></a>
+March 14, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.2.3/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.2.2"><strong>1.2.2</strong></a>
+March 14, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.2.2/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.2.1"><strong>1.2.1</strong></a>
+August 11, 2016
+
+        (<a href="https://hexdocs.pm/phoenix/1.2.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.2.0"><strong>1.2.0</strong></a>
+June 23, 2016
+
+        (<a href="https://hexdocs.pm/phoenix/1.2.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.2.0-rc.1"><strong>1.2.0-rc.1</strong></a>
+May 25, 2016
+
+        (<a href="https://hexdocs.pm/phoenix/1.2.0-rc.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.2.0-rc.0"><strong>1.2.0-rc.0</strong></a>
+April 29, 2016
+
+        (<a href="https://hexdocs.pm/phoenix/1.2.0-rc.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.9"><strong>1.1.9</strong></a>
+May 15, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.9/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.8"><strong>1.1.8</strong></a>
+March 14, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.8/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.7"><strong>1.1.7</strong></a>
+March 14, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.7/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.6"><strong>1.1.6</strong></a>
+June 3, 2016
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.6/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.5"><strong>1.1.5</strong></a>
+June 1, 2016
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.5/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.4"><strong>1.1.4</strong></a>
+January 25, 2016
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.4/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.3"><strong>1.1.3</strong></a>
+January 20, 2016
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.3/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.2"><strong>1.1.2</strong></a>
+January 8, 2016
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.2/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.1"><strong>1.1.1</strong></a>
+December 26, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.1.0"><strong>1.1.0</strong></a>
+December 16, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/1.1.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.0.6"><strong>1.0.6</strong></a>
+March 14, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.0.6/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.0.5"><strong>1.0.5</strong></a>
+March 14, 2017
+
+        (<a href="https://hexdocs.pm/phoenix/1.0.5/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.0.4"><strong>1.0.4</strong></a>
+November 30, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/1.0.4/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.0.3"><strong>1.0.3</strong></a>
+September 28, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/1.0.3/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.0.2"><strong>1.0.2</strong></a>
+September 6, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/1.0.2/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.0.1"><strong>1.0.1</strong></a>
+September 3, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/1.0.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/1.0.0"><strong>1.0.0</strong></a>
+August 28, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/1.0.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.17.1"><strong>0.17.1</strong></a>
+August 26, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.17.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.17.0"><strong>0.17.0</strong></a>
+August 19, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.17.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.16.1"><strong>0.16.1</strong></a>
+August 6, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.16.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.16.0"><strong>0.16.0</strong></a>
+August 5, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.16.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.15.0"><strong>0.15.0</strong></a>
+July 27, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.15.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.14.0"><strong>0.14.0</strong></a>
+June 29, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.14.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.13.1"><strong>0.13.1</strong></a>
+May 17, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.13.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.13.0"><strong>0.13.0</strong></a>
+May 11, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.13.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.12.0"><strong>0.12.0</strong></a>
+April 30, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.12.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.11.0"><strong>0.11.0</strong></a>
+April 7, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.11.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.10.0"><strong>0.10.0</strong></a>
+March 8, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.10.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.9.0"><strong>0.9.0</strong></a>
+February 12, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.9.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.8.0"><strong>0.8.0</strong></a>
+January 11, 2015
+
+        (<a href="https://hexdocs.pm/phoenix/0.8.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.7.2"><strong>0.7.2</strong></a>
+December 11, 2014
+
+        (<a href="https://hexdocs.pm/phoenix/0.7.2/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.7.1"><strong>0.7.1</strong></a>
+December 10, 2014
+
+        (<a href="https://hexdocs.pm/phoenix/0.7.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.7.0"><strong>0.7.0</strong></a>
+December 10, 2014
+
+        (<a href="https://hexdocs.pm/phoenix/0.7.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.6.2"><strong>0.6.2</strong></a>
+December 8, 2014
+
+        (<a href="https://hexdocs.pm/phoenix/0.6.2/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.6.1"><strong>0.6.1</strong></a>
+November 30, 2014
+
+        (<a href="https://hexdocs.pm/phoenix/0.6.1/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.6.0"><strong>0.6.0</strong></a>
+November 22, 2014
+
+        (<a href="https://hexdocs.pm/phoenix/0.6.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.5.0"><strong>0.5.0</strong></a>
+October 13, 2014
+
+        (<a href="https://hexdocs.pm/phoenix/0.5.0/">docs</a>)
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.4.1"><strong>0.4.1</strong></a>
+September 9, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.4.0"><strong>0.4.0</strong></a>
+August 30, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.3.1"><strong>0.3.1</strong></a>
+July 5, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.3.0"><strong>0.3.0</strong></a>
+July 1, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.11"><strong>0.2.11</strong></a>
+June 30, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.10"><strong>0.2.10</strong></a>
+June 19, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.9"><strong>0.2.9</strong></a>
+June 17, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.8"><strong>0.2.8</strong></a>
+June 16, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.7"><strong>0.2.7</strong></a>
+June 13, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.6"><strong>0.2.6</strong></a>
+June 13, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.5"><strong>0.2.5</strong></a>
+June 11, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.4"><strong>0.2.4</strong></a>
+May 25, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.3"><strong>0.2.3</strong></a>
+May 13, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.2"><strong>0.2.2</strong></a>
+May 6, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.1"><strong>0.2.1</strong></a>
+May 1, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.2.0"><strong>0.2.0</strong></a>
+May 1, 2014
+
+  </li>
+  <li>
+    <a href="/packages/phoenix/0.1.0"><strong>0.1.0</strong></a>
+April 21, 2014
+
+  </li>
+          </ul>
+          <p class="show-versions">
+            <span class="toggle-text" role="button" data-toggle="collapse" data-target="#older-versions" aria-expanded="false" aria-controls="versions">
+              <a>Show All Versions</a>
+              <a class="invisible">Show Recent Versions</a>
+            </span>
+          </p>
+      </div>
+      <div class="col-md-6">
+        <h3>Dependencies (4)</h3>
+        <ul class="version-dependency-list">
+
+            <li>
+              <a href="/packages/cowboy">cowboy</a> ~&gt; 1.0
+
+              (optional)
+            </li>
+
+            <li>
+              <a href="/packages/phoenix_pubsub">phoenix_pubsub</a> ~&gt; 1.0
+
+
+            </li>
+
+            <li>
+              <a href="/packages/plug">plug</a> ~&gt; 1.3.3 or ~&gt; 1.4
+
+
+            </li>
+
+            <li>
+              <a href="/packages/poison">poison</a> ~&gt; 2.2 or ~&gt; 3.0
+
+
+            </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <h3>Config</h3>
+      <div class="package-snippet">
+        <span class="config-tool">mix.exs</span>
+        <div class="config-input">
+          <div class="input-group">
+            <input type="text" class="form-control snippet"
+              value="{:phoenix, &quot;~&gt; 1.3&quot;}"
+              onfocus="this.select();"
+              readonly="readonly" id="mix-snippet" />
+            <span class="input-group-btn">
+              <button class="btn btn-default btn-no-hover copy-button" type="button" data-input-id="mix-snippet">
+<svg aria-hidden="aria-hidden" class="glyphicon glyphicon-copy" version="1.1" viewBox="0 0 1200 1200"><g transform="translate(0, 1200) scale(1, -1)"><path d="M650 1100h100q21 0 35.5 -14.5t14.5 -35.5v-50h50q21 0 35.5 -14.5t14.5 -35.5v-100q0 -21 -14.5 -35.5t-35.5 -14.5h-300q-21 0 -35.5 14.5t-14.5 35.5v100q0 21 14.5 35.5t35.5 14.5h50v50q0 21 14.5 35.5t35.5 14.5zM1000 850v150q41 0 70.5 -29.5t29.5 -70.5v-800 q0 -41 -29.5 -70.5t-70.5 -29.5h-600q-1 0 -20 4l246 246l-326 326v324q0 41 29.5 70.5t70.5 29.5v-150q0 -62 44 -106t106 -44h300q62 0 106 44t44 106zM412 250l-212 -212v162h-200v100h200v162z"></path></g></svg>                <svg aria-hidden="aria-hidden" class="glyphicon glyphicon-remove" style="display: none" version="1.1" viewBox="0 0 1200 1200"><g transform="translate(0, 1200) scale(1, -1)"><path d="M904 1083l178 -179q8 -8 8 -18.5t-8 -17.5l-267 -268l267 -268q8 -7 8 -17.5t-8 -18.5l-178 -178q-8 -8 -18.5 -8t-17.5 8l-268 267l-268 -267q-7 -8 -17.5 -8t-18.5 8l-178 178q-8 8 -8 18.5t8 17.5l267 268l-267 268q-8 7 -8 17.5t8 18.5l178 178q8 8 18.5 8t17.5 -8 l268 -267l268 268q7 7 17.5 7t18.5 -7z"></path></g></svg>
+<svg aria-hidden="aria-hidden" class="glyphicon glyphicon-ok" style="display: none; color: green" version="1.1" viewBox="0 0 1200 1200"><g transform="translate(0, 1200) scale(1, -1)"><path d="M465 477l571 571q8 8 18 8t17 -8l177 -177q8 -7 8 -17t-8 -18l-783 -784q-7 -8 -17.5 -8t-17.5 8l-384 384q-8 8 -8 18t8 17l177 177q7 8 17 8t18 -8l171 -171q7 -7 18 -7t18 7z"></path></g></svg>              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    <h3>Checksum</h3>
+    <div class="config-input">
+      <div class="input-group">
+        <input type="text" class="form-control snippet"
+          value="1c01124caa1b4a7af46f2050ff11b267baa3edb441b45dbf243e979cd4c5891b"
+          onfocus="this.select();"
+          readonly="readonly" id="checksum-snippet" />
+        <span class="input-group-btn">
+          <button class="btn btn-default btn-no-hover copy-button" type="button" data-input-id="checksum-snippet">
+<svg aria-hidden="aria-hidden" class="glyphicon glyphicon-copy" version="1.1" viewBox="0 0 1200 1200"><g transform="translate(0, 1200) scale(1, -1)"><path d="M650 1100h100q21 0 35.5 -14.5t14.5 -35.5v-50h50q21 0 35.5 -14.5t14.5 -35.5v-100q0 -21 -14.5 -35.5t-35.5 -14.5h-300q-21 0 -35.5 14.5t-14.5 35.5v100q0 21 14.5 35.5t35.5 14.5h50v50q0 21 14.5 35.5t35.5 14.5zM1000 850v150q41 0 70.5 -29.5t29.5 -70.5v-800 q0 -41 -29.5 -70.5t-70.5 -29.5h-600q-1 0 -20 4l246 246l-326 326v324q0 41 29.5 70.5t70.5 29.5v-150q0 -62 44 -106t106 -44h300q62 0 106 44t44 106zM412 250l-212 -212v162h-200v100h200v162z"></path></g></svg>            <svg aria-hidden="aria-hidden" class="glyphicon glyphicon-remove" style="display: none" version="1.1" viewBox="0 0 1200 1200"><g transform="translate(0, 1200) scale(1, -1)"><path d="M904 1083l178 -179q8 -8 8 -18.5t-8 -17.5l-267 -268l267 -268q8 -7 8 -17.5t-8 -18.5l-178 -178q-8 -8 -18.5 -8t-17.5 8l-268 267l-268 -267q-7 -8 -17.5 -8t-18.5 8l-178 178q-8 8 -8 18.5t8 17.5l267 268l-267 268q-8 7 -8 17.5t8 18.5l178 178q8 8 18.5 8t17.5 -8 l268 -267l268 268q7 7 17.5 7t18.5 -7z"></path></g></svg>
+<svg aria-hidden="aria-hidden" class="glyphicon glyphicon-ok" style="display: none; color: green" version="1.1" viewBox="0 0 1200 1200"><g transform="translate(0, 1200) scale(1, -1)"><path d="M465 477l571 571q8 8 18 8t17 -8l177 -177q8 -7 8 -17t-8 -18l-783 -784q-7 -8 -17.5 -8t-17.5 8l-384 384q-8 8 -8 18t8 17l177 177q7 8 17 8t18 -8l171 -171q7 -7 18 -7t18 7z"></path></g></svg>          </button>
+        </span>
+      </div>
+    </div>
+
+      <h3>Build Tools</h3>
+      <div class="build-tools-box">
+        <span class="build-tool mix">mix</span>
+      </div>
+
+    <h3>Owners</h3>
+    <ul class="owners-list">
+        <li>
+          <a href="/users/chrismccord">
+            <img src="https://www.gravatar.com/avatar/c4a2386bb3a49400cf3a08863746b703?s=80&amp;d=retro" class="owner-avatar">chrismccord
+          </a>
+        </li>
+        <li>
+          <a href="/users/josevalim">
+            <img src="https://www.gravatar.com/avatar/e837f6b7fd146ab16ed3d663476c063e?s=80&amp;d=retro" class="owner-avatar">josevalim
+          </a>
+        </li>
+        <li>
+          <a href="/users/gazler">
+            <img src="https://www.gravatar.com/avatar/9ed8d4e8807d54e62ebf2cdb14aaa1a5?s=80&amp;d=retro" class="owner-avatar">gazler
+          </a>
+        </li>
+        <li>
+          <a href="/users/jeregrine">
+            <img src="https://www.gravatar.com/avatar/cf08f668c5266d60999768f918561fef?s=80&amp;d=retro" class="owner-avatar">jeregrine
+          </a>
+        </li>
+    </ul>
+
+    <h3>Dependents (119)</h3>
+    <a href="/packages/phoenix_ecto">phoenix_ecto</a>, <a href="/packages/phoenix_live_reload">phoenix_live_reload</a>, <a href="/packages/guardian">guardian</a>, <a href="/packages/appsignal">appsignal</a>, <a href="/packages/scrivener_html">scrivener_html</a>, <a href="/packages/phoenix_slime">phoenix_slime</a>, <a href="/packages/phoenix_swoosh">phoenix_swoosh</a>, <a href="/packages/espec_phoenix">espec_phoenix</a>, <a href="/packages/timber">timber</a>, <a href="/packages/prometheus_phoenix">prometheus_phoenix</a>, <a href="/packages/coherence">coherence</a>, <a href="/packages/espec_phoenix_helpers">espec_phoenix_helpers</a>, <a href="/packages/ja_resource">ja_resource</a>, <a href="/packages/bureaucrat">bureaucrat</a>, <a href="/packages/phoenix_haml">phoenix_haml</a>, <a href="/packages/phoenix_pubsub_redis">phoenix_pubsub_redis</a>, <a href="/packages/pryin">pryin</a>, <a href="/packages/new_relixir">new_relixir</a>, <a href="/packages/phoenix_expug">phoenix_expug</a>, <a href="/packages/absinthe_phoenix">absinthe_phoenix</a>,
+    <a href="/packages?search=depends%3Aphoenix">show all...</a>
+  </div>
+</div>
+
+    </div>
+
+    <div class="footer">
+      <div class="footer-nav">
+        <div class="container">
+          <ul>
+            <li>
+              <a href="/blog">blog</a>
+            </li>
+            <li>
+              <a href="/policies">policies</a>
+            </li>
+            <li>
+              <a href="/sponsors">sponsors</a>
+            </li>
+            <li>
+              <a href="https://github.com/hexpm">github</a>
+            </li>
+            <li>
+              <a href="mailto:support@hex.pm">support</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/app-2be407a1d0b4858dd027a696631c09bb.js?vsn=d"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-49056880-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+  </body>
+</html>

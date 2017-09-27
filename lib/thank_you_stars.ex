@@ -31,7 +31,7 @@ defmodule ThankYouStars do
   end
 
   def scrape_github_url(http_response) do
-    Map.get(http_response, :body, [])
+    Map.get(http_response, :body, "")
       |> Floki.find("ul.links")
       |> Floki.find("a")
       |> Enum.filter(&github_url?/1)
