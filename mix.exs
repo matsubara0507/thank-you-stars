@@ -23,6 +23,7 @@ defmodule ThankYouStars.Mixfile do
     [
       {:floki, "~> 0.18.0"},
       {:httpoison, "~> 0.13"},
+      {:ok, "~> 1.9.1"},
       {:poison, "~> 3.1"},
       {:tentacat, "~> 0.7"}
     ]
