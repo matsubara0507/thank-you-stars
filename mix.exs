@@ -1,13 +1,19 @@
 defmodule ThankYouStars.Mixfile do
   use Mix.Project
 
+  @version "0.1.0"
+  @github "https://github.com/matsubara0507/thank-you-stars"
+
   def project do
     [
       app: :thank_you_stars,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
+      description: "A tool for starring GitHub repositories.",
+      package: package(),
       deps: deps(),
+      source_url: @github,
       aliases: aliases(),
       spec_paths: ["test"],
       spec_pattern: "*_spec.exs",
@@ -15,15 +21,22 @@ defmodule ThankYouStars.Mixfile do
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       applications: [:httpoison, :tentacat]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
-  def deps do
+  defp package do
+    [
+      maintainers: ["MATSUBARA Nobutada"],
+      licenses: ["MIT"],
+      links: %{GitHub: @github},
+      files: ~w(lib LICENSE.md mix.exs README.md)
+    ]
+  end
+
+  defp deps do
     [
       {:espec, "~> 1.4.6", only: :test},
       {:httpoison, "~> 0.13"},
