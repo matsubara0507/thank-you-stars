@@ -1,14 +1,14 @@
 ESpec.start()
 
-espec_hexpm_html = File.read!("test/fixture/html/espec_hexpm.html")
-phoenix_hexpm_html = File.read!("test/fixture/html/phoenix_hexpm.html")
-not_found_hexpm_html = File.read!("test/fixture/html/not_found_hexpm.html")
+espec_hexpm_json = File.read!("test/fixture/json/espec_hexpm.json")
+phoenix_hexpm_json = File.read!("test/fixture/json/phoenix_hexpm.json")
+not_found_hexpm_json = File.read!("test/fixture/json/not_found_hexpm.json")
 
 ESpec.configure fn(config) ->
   config.before fn ->
     {:shared,
-      espec_hexpm_html: espec_hexpm_html,
-      phoenix_hexpm_html: phoenix_hexpm_html,
-      not_found_hexpm_html: not_found_hexpm_html}
+      espec_hexpm_json: espec_hexpm_json,
+      phoenix_hexpm_json: phoenix_hexpm_json,
+      not_found_hexpm_json: not_found_hexpm_json}
   end
 end

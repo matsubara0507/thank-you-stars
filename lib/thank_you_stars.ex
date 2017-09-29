@@ -41,25 +41,33 @@ defmodule ThankYouStars do
 
   def fetch_package_github_url(package_name) do
     OK.with do
-      HTTPoison.get("https://hex.pm/packages/#{package_name}")
-        ~>> scrape_github_url
+      HTTPoison.get("https://hex.pm/api/packages/#{package_name}")
+        ~>> map_get_with_ok(:body)
+        ~>> poison_decode()
+        ~>> map_get_with_ok("meta")
+        ~>> map_get_with_ok("links")
+        ~>> github_url()
     else
       _reson -> OK.failure(package_name)
     end
   end
 
-  def scrape_github_url(http_response) do
-    Map.get(http_response, :body, "")
-      |> Floki.find("ul.links")
-      |> Floki.find("a")
-      |> Enum.filter(&github_url?/1)
-      |> Floki.attribute("href")
-      |> List.first()
-      |> OK.required("GitHub URL is not scraped.")
+  def github_url(links) do
+    ["GitHub", "Github", "github"]
+      |> Enum.map(&(Map.get(links, &1)))
+      |> Enum.filter(&(!is_nil(&1)))
+      |> case do
+           [] -> OK.failure nil
+           [link | _] -> OK.success link
+         end
   end
 
-  def github_url?(html),
-    do: Floki.text(html) |> String.downcase() |> String.equivalent?("github")
+  defp map_get_with_ok(map, key) do
+    case Map.get map, key do
+      nil -> OK.failure {:undefined_key, key}
+      value -> OK.success value
+    end
+  end
 
   def star_github_package(url, client) do
     url

@@ -18,7 +18,7 @@ defmodule ThankYouStars.Mixfile do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      applications: [:floki, :httpoison, :tentacat]
+      applications: [:httpoison, :tentacat]
     ]
   end
 
@@ -26,7 +26,6 @@ defmodule ThankYouStars.Mixfile do
   def deps do
     [
       {:espec, "~> 1.4.6", only: :test},
-      {:floki, "~> 0.18.0"},
       {:httpoison, "~> 0.13"},
       {:ok, "~> 1.9.1"},
       {:poison, "~> 3.1"},

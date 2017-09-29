@@ -10,9 +10,9 @@ defmodule ThankYouStarsSpec do
       ]
     allow(Mix.Project).to accept(:config, fn -> [deps: packages] end)
     allow(HTTPoison).to accept(:get, fn
-      "https://hex.pm/packages/espec" -> {:ok, %{body: shared.espec_hexpm_html}}
-      "https://hex.pm/packages/phoenix" -> {:ok, %{body: shared.phoenix_hexpm_html}}
-      _ -> {:ok, %{body: shared.not_found_hexpm_html}}
+      "https://hex.pm/api/packages/espec" -> {:ok, %{body: shared.espec_hexpm_json}}
+      "https://hex.pm/api/packages/phoenix" -> {:ok, %{body: shared.phoenix_hexpm_json}}
+      _ -> {:ok, %{body: shared.not_found_hexpm_json}}
     end)
     allow(Tentacat).to accept(:put, fn
       (_, :correct) -> {204, nil}
@@ -89,37 +89,22 @@ defmodule ThankYouStarsSpec do
     end
   end
 
-  describe "scrape_github_url(http_response)" do
-    it "correct pattern" do
-      expect scrape_github_url(%{body: shared.espec_hexpm_html})
+  describe "github_url(links)" do
+    it "correct pattern with GitHub" do
+      expect github_url(%{"GitHub" => "https://github.com/antonmi/espec"})
         |> to(eq {:ok, "https://github.com/antonmi/espec"})
     end
-    it "not found page" do
-      expect scrape_github_url(%{body: shared.not_found_hexpm_html})
-        |> to(eq {:error, "GitHub URL is not scraped."})
+    it "correct pattern with Github" do
+      expect github_url(%{"Github" => "https://github.com/antonmi/espec"})
+        |> to(eq {:ok, "https://github.com/antonmi/espec"})
     end
-    it "no body response" do
-      expect scrape_github_url(%{})
-        |> to(eq {:error, "GitHub URL is not scraped."})
+    it "correct pattern with github" do
+      expect github_url(%{"github" => "https://github.com/antonmi/espec"})
+        |> to(eq {:ok, "https://github.com/antonmi/espec"})
     end
-  end
-
-  describe "github_url?(html)" do
-    it "contain GitHub" do
-      expect github_url?([{"a", [{"href", "http://github.com"}], ["GitHub"]}])
-        |> to(be_true())
-    end
-    it "contain Github" do
-      expect github_url?([{"a", [{"href", "http://github.com"}], ["Github"]}])
-        |> to(be_true())
-    end
-    it "contain github" do
-      expect github_url?([{"a", [{"href", "http://github.com"}], ["github"]}])
-        |> to(be_true())
-    end
-    it "not contain" do
-      expect github_url?([{"a", [{"href", "http://github.com"}], ["Hi"]}])
-        |> to(be_false())
+    it "not have GitHub link" do
+      expect github_url(%{})
+        |> to(eq {:error, nil})
     end
   end
 
