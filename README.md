@@ -6,20 +6,27 @@ and stars the repositories all at once.
 
 ## Setup
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `thank_you_stars` to your list of dependencies in `mix.exs`:
+Add `thank_you_stars` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:thank_you_stars, "~> 0.1.0"}
+    {:thank_you_stars, git: "https://github.com/matsubara0507/thank-you-stars.git", tag: "master"}
   ]
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/thank_you_stars](https://hexdocs.pm/thank_you_stars).
+To star GitHub repositories, you have to get your personal access token.
+
+1. Open https://github.com/settings/tokens and press "Generate new token."
+1. Input the description and check only "public_repo" as a scope.
+1. Save the token as `$HOME/.thank-you-stars.json`:
+
+```json
+{
+    "token": "SET_YOUR_TOKEN_HERE"
+}
+```
 
 ## Usage
 
@@ -29,20 +36,11 @@ stars your dependent libraries if they are hosted on GitHub.
 
 ```console
 $  mix thank_you_stars
-Starred! https://github.com/certifi/erlang-certifi
-Starred! https://github.com/talentdeficit/exjsx
-Starred! https://github.com/philss/floki
-Starred! https://github.com/benoitc/hackney
+Starred! https://github.com/antonmi/espec
 Starred! https://github.com/edgurgel/httpoison
-Starred! https://github.com/benoitc/erlang-idna
-Starred! https://github.com/talentdeficit/jsx
-Starred! https://github.com/benoitc/erlang-metrics
-Starred! https://github.com/benoitc/mimerl
-Starred! https://github.com/mochi/mochiweb
+Starred! https://github.com/CrowdHailer/OK
 Starred! https://github.com/devinus/poison
-Starred! https://github.com/deadtrickster/ssl_verify_fun.erl
 Starred! https://github.com/edgurgel/tentacat
-Starred! https://github.com/benoitc/unicode_util_compat
 ```
 
 ## Acknowledgement
