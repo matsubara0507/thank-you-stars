@@ -1,7 +1,6 @@
 defmodule Mix.Tasks.ThankYouStars do
   use Mix.Task
   require OK
-  import OK, only: ["~>>": 2]
 
   @shortdoc "thank you stars !"
 
