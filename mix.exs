@@ -32,7 +32,7 @@ defmodule ThankYouStars.Mixfile do
       maintainers: ["MATSUBARA Nobutada"],
       licenses: ["MIT"],
       links: %{GitHub: @github},
-      files: ~w(lib LICENSE.md mix.exs README.md)
+      files: ~w(lib LICENSE mix.exs README.md)
     ]
   end
 
