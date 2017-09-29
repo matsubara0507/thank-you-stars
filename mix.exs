@@ -39,6 +39,7 @@ defmodule ThankYouStars.Mixfile do
   defp deps do
     [
       {:espec, "~> 1.4.6", only: :test},
+      {:ex_doc, "~> 0.16", only: :dev, runtime: false},
       {:httpoison, "~> 0.13"},
       {:ok, "~> 1.9.1"},
       {:poison, "~> 3.1"},

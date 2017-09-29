@@ -5,6 +5,11 @@ defmodule ThankYouStars do
   require OK
   import OK, only: ["~>>": 2]
 
+  @doc """
+  load github api token from "$HOME/.thank_you_stars.json" file.
+  format is `{ "token": "SET_YOUR_TOKEN_HERE" }` .
+  """
+  @spec load_token() :: binary
   def load_token do
     File.read(token_path())
       ~>> poison_decode()
@@ -21,6 +26,10 @@ defmodule ThankYouStars do
     end
   end
 
+  @doc """
+  load dependency packages from mix.exs.
+  """
+  @spec load_deps_packages() :: [binary]
   def load_deps_packages do
     Mix.Project.config
       |> Keyword.get(:deps)
@@ -29,6 +38,11 @@ defmodule ThankYouStars do
       |> Enum.map(&Atom.to_string/1)
   end
 
+  @doc """
+  star package's GitHub repository.
+  """
+  @spec star_package(
+          package_name :: binary, client :: Tentacat.Client.t) :: binary
   def star_package(package_name, client) do
     result =
       fetch_package_github_url(package_name)
@@ -39,6 +53,10 @@ defmodule ThankYouStars do
     end
   end
 
+  @doc """
+  fetch github url of package from `hex.pm/api/packages` .
+  """
+  @spec fetch_package_github_url(package_name :: binary) :: binary
   def fetch_package_github_url(package_name) do
     OK.with do
       HTTPoison.get("https://hex.pm/api/packages/#{package_name}")
@@ -52,6 +70,11 @@ defmodule ThankYouStars do
     end
   end
 
+  @doc """
+  get github url from json.
+  field name is `GitHub`, `Github` or `github`.
+  """
+  @spec github_url(links :: map) :: {:ok, binary} | {:error, nil}
   def github_url(links) do
     ["GitHub", "Github", "github"]
       |> Enum.map(&(Map.get(links, &1)))
@@ -69,6 +92,13 @@ defmodule ThankYouStars do
     end
   end
 
+  @doc """
+  star package's GitHub repository using GitHub API.
+  """
+  @spec star_github_package(
+          url :: binary,
+          client :: Tentacat.Client.t
+        ) :: {:ok, binary} | {:error, binary}
   def star_github_package(url, client) do
     url
       |> URI.parse()
