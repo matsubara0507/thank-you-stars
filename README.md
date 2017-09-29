@@ -11,7 +11,7 @@ Add `thank_you_stars` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:thank_you_stars, "~> 0.1.0"}
+    {:thank_you_stars, "~> 0.1.0", only: :dev}
   ]
 end
 ```
