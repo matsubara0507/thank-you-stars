@@ -48,7 +48,7 @@ defmodule ThankYouStars do
         ~>> map_get_with_ok("links")
         ~>> github_url()
     else
-      _reson -> OK.failure(package_name)
+       _reason -> OK.failure(package_name)
     end
   end
 
