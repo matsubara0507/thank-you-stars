@@ -21,8 +21,8 @@ defmodule ThankYouStars do
 
   defp poison_decode(str) do
     case Poison.decode(str) do
-      {:error, :invalid, _} -> {:error, :invalid}
-      other -> other
+      {:error, _} -> {:error, :invalid}
+      other       -> other
     end
   end
 
@@ -58,15 +58,16 @@ defmodule ThankYouStars do
   """
   @spec fetch_package_github_url(package_name :: binary) :: binary
   def fetch_package_github_url(package_name) do
-    OK.with do
+    result =
       HTTPoison.get("https://hex.pm/api/packages/#{package_name}")
-        ~>> map_get_with_ok(:body)
-        ~>> poison_decode()
-        ~>> map_get_with_ok("meta")
-        ~>> map_get_with_ok("links")
-        ~>> github_url()
-    else
-       _reason -> OK.failure(package_name)
+      ~>> map_get_with_ok(:body)
+      ~>> poison_decode()
+      ~>> map_get_with_ok("meta")
+      ~>> map_get_with_ok("links")
+      ~>> github_url()
+    case result do
+      {:error, _} -> OK.failure(package_name)
+      ok          -> ok
     end
   end
 
@@ -105,8 +106,8 @@ defmodule ThankYouStars do
       |> Map.get(:path, "")
       |> (&(Tentacat.put "user/starred#{&1}", client)).()
       |> case do
-           {204, _} -> OK.success(url)
-           _        -> OK.failure(url)
+           {204, _, _} -> OK.success(url)
+           _           -> OK.failure(url)
          end
   end
 end

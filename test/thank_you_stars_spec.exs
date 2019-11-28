@@ -8,15 +8,15 @@ defmodule ThankYouStarsSpec do
         {:espec, "~> 1.4.6", [only: :test]},
         {:phoenix, "~> 3.0"}
       ]
-    allow(Mix.Project).to accept(:config, fn -> [deps: packages] end)
-    allow(HTTPoison).to accept(:get, fn
+    allow Mix.Project |> to(accept :config, fn -> [deps: packages] end)
+    allow HTTPoison |> to(accept :get, fn
       "https://hex.pm/api/packages/espec" -> {:ok, %{body: shared.espec_hexpm_json}}
       "https://hex.pm/api/packages/phoenix" -> {:ok, %{body: shared.phoenix_hexpm_json}}
       _ -> {:ok, %{body: shared.not_found_hexpm_json}}
     end)
-    allow(Tentacat).to accept(:put, fn
-      (_, :correct) -> {204, nil}
-      (_, :error)   -> {404, nil}
+    allow Tentacat |> to(accept :put, fn
+      (_, :correct) -> {204, nil, nil}
+      (_, :error)   -> {404, nil, nil}
     end)
     {:shared, deps_packages: packages}
   end
@@ -29,17 +29,17 @@ defmodule ThankYouStarsSpec do
             "token": "XXX"
         }
         """
-      before do: allow(File).to accept(:read, fn _ -> {:ok, json()} end)
+      before do: allow File |> to(accept :read, fn _ -> {:ok, json()} end)
       it do: expect load_token() |> to(eq {:ok, "XXX"})
     end
 
     context "not found .thank-you-stars.json" do
-      before do: allow(File).to accept(:read, fn _ -> {:error, nil} end)
+      before do: allow File |> to(accept :read, fn _ -> {:error, nil} end)
       it do: expect load_token() |> to(eq {:error, nil})
     end
 
     context "no json" do
-      before do: allow(File).to accept(:read, fn _ -> {:ok, ""} end)
+      before do: allow File |> to(accept :read, fn _ -> {:ok, ""} end)
       it do: expect load_token() |> to(eq {:error, :invalid})
     end
 
@@ -50,7 +50,7 @@ defmodule ThankYouStarsSpec do
             "taken": "XXX"
         }
         """
-      before do: allow(File).to accept(:read, fn _ -> {:ok, json()} end)
+      before do: allow File |> to(accept :read, fn _ -> {:ok, json()} end)
       it do: expect load_token() |> to(eq :error)
     end
   end
