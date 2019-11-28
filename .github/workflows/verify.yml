@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        otp: [20.x, 21.x, 22.x]
+        otp: [21.x, 22.x]
         elixir: [1.8.x, 1.9.x]
       fail-fast: false
 
