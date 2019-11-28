@@ -9,7 +9,7 @@ defmodule ThankYouStars.Mixfile do
       app: :thank_you_stars,
       version: @version,
       elixir: "~> 1.9",
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
       description: "A tool for starring GitHub repositories.",
       package: package(),
       deps: deps(),
@@ -49,7 +49,7 @@ defmodule ThankYouStars.Mixfile do
 
   defp aliases do
     [
-     test: ["espec"]
+      test: ["espec"]
     ]
   end
 end
