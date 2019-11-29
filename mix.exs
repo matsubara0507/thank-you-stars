@@ -8,7 +8,7 @@ defmodule ThankYouStars.Mixfile do
     [
       app: :thank_you_stars,
       version: @version,
-      elixir: "~> 1.9",
+      elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       description: "A tool for starring GitHub repositories.",
       package: package(),
