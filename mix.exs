@@ -8,8 +8,8 @@ defmodule ThankYouStars.Mixfile do
     [
       app: :thank_you_stars,
       version: @version,
-      elixir: "~> 1.4",
-      start_permanent: Mix.env == :prod,
+      elixir: "~> 1.9",
+      start_permanent: Mix.env() == :prod,
       description: "A tool for starring GitHub repositories.",
       package: package(),
       deps: deps(),
@@ -38,18 +38,18 @@ defmodule ThankYouStars.Mixfile do
 
   defp deps do
     [
-      {:espec, "~> 1.4.6", only: :test},
-      {:ex_doc, "~> 0.16", only: :dev, runtime: false},
-      {:httpoison, "~> 0.13"},
-      {:ok, "~> 1.9.1"},
-      {:poison, "~> 3.1"},
-      {:tentacat, "~> 0.7"}
+      {:espec, "~> 1.7.0", only: :test},
+      {:ex_doc, "~> 0.21.2", only: :dev, runtime: false},
+      {:httpoison, "~> 1.6.2"},
+      {:ok, "~> 2.3.0"},
+      {:poison, "~> 4.0.1"},
+      {:tentacat, "~> 1.6.1"}
     ]
   end
 
   defp aliases do
     [
-     "test": ["espec"]
+      test: ["espec"]
     ]
   end
 end
