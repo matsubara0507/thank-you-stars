@@ -4,6 +4,7 @@ defmodule ThankYouStars do
   """
 
   alias ThankYouStars.Result, as: Result
+  alias ThankYouStars.JSON, as: JSON
 
   @doc """
   load github api token from "$HOME/.thank_you_stars.json" file.
@@ -12,19 +13,12 @@ defmodule ThankYouStars do
   @spec load_token() :: binary
   def load_token do
     File.read(token_path())
-    |> Result.and_then(&poison_decode(&1))
+    |> Result.and_then(&JSON.decode(&1))
     |> Result.and_then(&Map.fetch(&1, "token"))
   end
 
   defp token_path,
     do: Path.join([System.user_home(), ".thank-you-stars.json"])
-
-  defp poison_decode(str) do
-    case Poison.decode(str) do
-      {:error, _} -> Result.failure(:invalid)
-      other -> other
-    end
-  end
 
   @doc """
   load dependency packages from mix.exs.
@@ -58,7 +52,7 @@ defmodule ThankYouStars do
   def fetch_package_github_url(package_name) do
     HTTPoison.get("https://hex.pm/api/packages/#{package_name}")
     |> Result.and_then(&map_get_with_ok(&1, :body))
-    |> Result.and_then(&poison_decode(&1))
+    |> Result.and_then(&JSON.decode(&1))
     |> Result.and_then(&map_get_with_ok(&1, "meta"))
     |> Result.and_then(&map_get_with_ok(&1, "links"))
     |> Result.and_then(&github_url(&1))
