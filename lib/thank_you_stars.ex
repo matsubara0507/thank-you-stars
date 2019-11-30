@@ -3,6 +3,8 @@ defmodule ThankYouStars do
   Helper functions for thank_you_stars task
   """
 
+  alias ThankYouStars.Result, as: Result
+
   @doc """
   load github api token from "$HOME/.thank_you_stars.json" file.
   format is `{ "token": "SET_YOUR_TOKEN_HERE" }` .
@@ -10,8 +12,8 @@ defmodule ThankYouStars do
   @spec load_token() :: binary
   def load_token do
     File.read(token_path())
-    |> and_then(&poison_decode(&1))
-    |> and_then(&Map.fetch(&1, "token"))
+    |> Result.and_then(&poison_decode(&1))
+    |> Result.and_then(&Map.fetch(&1, "token"))
   end
 
   defp token_path,
@@ -19,7 +21,7 @@ defmodule ThankYouStars do
 
   defp poison_decode(str) do
     case Poison.decode(str) do
-      {:error, _} -> {:error, :invalid}
+      {:error, _} -> Result.failure(:invalid)
       other -> other
     end
   end
@@ -42,7 +44,7 @@ defmodule ThankYouStars do
   @spec star_package(package_name :: binary, token :: binary) :: binary
   def star_package(package_name, token) do
     fetch_package_github_url(package_name)
-    |> and_then(&star_github_package(&1, token))
+    |> Result.and_then(&star_github_package(&1, token))
     |> case do
       {:ok, url} -> "Starred! #{url}"
       {:error, url} -> "Error    #{url}"
@@ -55,13 +57,13 @@ defmodule ThankYouStars do
   @spec fetch_package_github_url(package_name :: binary) :: binary
   def fetch_package_github_url(package_name) do
     HTTPoison.get("https://hex.pm/api/packages/#{package_name}")
-    |> and_then(&map_get_with_ok(&1, :body))
-    |> and_then(&poison_decode(&1))
-    |> and_then(&map_get_with_ok(&1, "meta"))
-    |> and_then(&map_get_with_ok(&1, "links"))
-    |> and_then(&github_url(&1))
+    |> Result.and_then(&map_get_with_ok(&1, :body))
+    |> Result.and_then(&poison_decode(&1))
+    |> Result.and_then(&map_get_with_ok(&1, "meta"))
+    |> Result.and_then(&map_get_with_ok(&1, "links"))
+    |> Result.and_then(&github_url(&1))
     |> case do
-      {:error, _} -> {:error, package_name}
+      {:error, _} -> Result.failure(package_name)
       ok -> ok
     end
   end
@@ -76,15 +78,15 @@ defmodule ThankYouStars do
     |> Enum.map(&Map.get(links, &1))
     |> Enum.filter(&(!is_nil(&1)))
     |> case do
-      [] -> {:error, nil}
-      [link | _] -> {:ok, link}
+      [] -> Result.failure(nil)
+      [link | _] -> Result.success(link)
     end
   end
 
   defp map_get_with_ok(map, key) do
     case Map.get(map, key) do
-      nil -> {:error, {:undefined_key, key}}
-      value -> {:ok, value}
+      nil -> Result.failure({:undefined_key, key})
+      value -> Result.success(value)
     end
   end
 
@@ -99,10 +101,10 @@ defmodule ThankYouStars do
     URI.parse(url)
     |> Map.get(:path, "")
     |> (&put_github_api("user/starred#{&1}", token)).()
-    |> and_then(&map_get_with_ok(&1, :status_code))
+    |> Result.and_then(&map_get_with_ok(&1, :status_code))
     |> case do
-      {:ok, 204} -> {:ok, url}
-      _ -> {:error, url}
+      {:ok, 204} -> Result.success(url)
+      _ -> Result.failure(url)
     end
   end
 
@@ -110,7 +112,4 @@ defmodule ThankYouStars do
     headers = [{"Authorization", "token #{token}"}]
     HTTPoison.put("https://api.github.com/#{path}", "", headers)
   end
-
-  defp and_then({:ok, v}, f), do: f.(v)
-  defp and_then(err = {:error, _}, _), do: err
 end
