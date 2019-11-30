@@ -23,7 +23,7 @@ defmodule ThankYouStars.Mixfile do
 
   def application do
     [
-      applications: [:httpoison, :tentacat]
+      applications: [:httpoison]
     ]
   end
 
@@ -41,8 +41,7 @@ defmodule ThankYouStars.Mixfile do
       {:espec, "~> 1.7.0", only: :test},
       {:ex_doc, "~> 0.21.2", only: :dev, runtime: false},
       {:httpoison, "~> 1.6.2"},
-      {:poison, "~> 4.0.1"},
-      {:tentacat, "~> 1.6.1"}
+      {:poison, "~> 4.0.1"}
     ]
   end
 

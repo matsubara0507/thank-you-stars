@@ -39,10 +39,10 @@ defmodule ThankYouStars do
   @doc """
   star package's GitHub repository.
   """
-  @spec star_package(package_name :: binary, client :: Tentacat.Client.t()) :: binary
-  def star_package(package_name, client) do
+  @spec star_package(package_name :: binary, token :: binary) :: binary
+  def star_package(package_name, token) do
     fetch_package_github_url(package_name)
-    |> and_then(&star_github_package(&1, client))
+    |> and_then(&star_github_package(&1, token))
     |> case do
       {:ok, url} -> "Starred! #{url}"
       {:error, url} -> "Error    #{url}"
@@ -93,16 +93,22 @@ defmodule ThankYouStars do
   """
   @spec star_github_package(
           url :: binary,
-          client :: Tentacat.Client.t()
+          token :: binary
         ) :: {:ok, binary} | {:error, binary}
-  def star_github_package(url, client) do
+  def star_github_package(url, token) do
     URI.parse(url)
     |> Map.get(:path, "")
-    |> (&Tentacat.put("user/starred#{&1}", client)).()
+    |> (&put_github_api("user/starred#{&1}", token)).()
+    |> and_then(&map_get_with_ok(&1, :status_code))
     |> case do
-      {204, _, _} -> {:ok, url}
+      {:ok, 204} -> {:ok, url}
       _ -> {:error, url}
     end
+  end
+
+  defp put_github_api(path, token) do
+    headers = [{"Authorization", "token #{token}"}]
+    HTTPoison.put("https://api.github.com/#{path}", "", headers)
   end
 
   defp and_then({:ok, v}, f), do: f.(v)
