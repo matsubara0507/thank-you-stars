@@ -2,8 +2,6 @@ defmodule ThankYouStars do
   @moduledoc """
   Helper functions for thank_you_stars task
   """
-  require OK
-  import OK, only: [~>>: 2]
 
   @doc """
   load github api token from "$HOME/.thank_you_stars.json" file.
@@ -12,8 +10,8 @@ defmodule ThankYouStars do
   @spec load_token() :: binary
   def load_token do
     File.read(token_path())
-    ~>> poison_decode()
-    ~>> Map.fetch("token")
+    |> and_then(&poison_decode(&1))
+    |> and_then(&Map.fetch(&1, "token"))
   end
 
   defp token_path,
@@ -43,11 +41,9 @@ defmodule ThankYouStars do
   """
   @spec star_package(package_name :: binary, client :: Tentacat.Client.t()) :: binary
   def star_package(package_name, client) do
-    result =
-      fetch_package_github_url(package_name)
-      ~>> star_github_package(client)
-
-    case result do
+    fetch_package_github_url(package_name)
+    |> and_then(&star_github_package(&1, client))
+    |> case do
       {:ok, url} -> "Starred! #{url}"
       {:error, url} -> "Error    #{url}"
     end
@@ -58,16 +54,14 @@ defmodule ThankYouStars do
   """
   @spec fetch_package_github_url(package_name :: binary) :: binary
   def fetch_package_github_url(package_name) do
-    result =
-      HTTPoison.get("https://hex.pm/api/packages/#{package_name}")
-      ~>> map_get_with_ok(:body)
-      ~>> poison_decode()
-      ~>> map_get_with_ok("meta")
-      ~>> map_get_with_ok("links")
-      ~>> github_url()
-
-    case result do
-      {:error, _} -> OK.failure(package_name)
+    HTTPoison.get("https://hex.pm/api/packages/#{package_name}")
+    |> and_then(&map_get_with_ok(&1, :body))
+    |> and_then(&poison_decode(&1))
+    |> and_then(&map_get_with_ok(&1, "meta"))
+    |> and_then(&map_get_with_ok(&1, "links"))
+    |> and_then(&github_url(&1))
+    |> case do
+      {:error, _} -> {:error, package_name}
       ok -> ok
     end
   end
@@ -82,15 +76,15 @@ defmodule ThankYouStars do
     |> Enum.map(&Map.get(links, &1))
     |> Enum.filter(&(!is_nil(&1)))
     |> case do
-      [] -> OK.failure(nil)
-      [link | _] -> OK.success(link)
+      [] -> {:error, nil}
+      [link | _] -> {:ok, link}
     end
   end
 
   defp map_get_with_ok(map, key) do
     case Map.get(map, key) do
-      nil -> OK.failure({:undefined_key, key})
-      value -> OK.success(value)
+      nil -> {:error, {:undefined_key, key}}
+      value -> {:ok, value}
     end
   end
 
@@ -102,13 +96,15 @@ defmodule ThankYouStars do
           client :: Tentacat.Client.t()
         ) :: {:ok, binary} | {:error, binary}
   def star_github_package(url, client) do
-    url
-    |> URI.parse()
+    URI.parse(url)
     |> Map.get(:path, "")
     |> (&Tentacat.put("user/starred#{&1}", client)).()
     |> case do
-      {204, _, _} -> OK.success(url)
-      _ -> OK.failure(url)
+      {204, _, _} -> {:ok, url}
+      _ -> {:error, url}
     end
   end
+
+  defp and_then({:ok, v}, f), do: f.(v)
+  defp and_then(err = {:error, _}, _), do: err
 end

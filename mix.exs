@@ -41,7 +41,6 @@ defmodule ThankYouStars.Mixfile do
       {:espec, "~> 1.7.0", only: :test},
       {:ex_doc, "~> 0.21.2", only: :dev, runtime: false},
       {:httpoison, "~> 1.6.2"},
-      {:ok, "~> 2.3.0"},
       {:poison, "~> 4.0.1"},
       {:tentacat, "~> 1.6.1"}
     ]
