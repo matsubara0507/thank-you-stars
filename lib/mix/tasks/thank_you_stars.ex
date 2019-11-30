@@ -7,13 +7,13 @@ defmodule Mix.Tasks.ThankYouStars do
     Mix.Task.run("app.start")
 
     case ThankYouStars.load_token() do
-      {:ok, token} -> thank_you_stars(Tentacat.Client.new(%{access_token: token}))
+      {:ok, token} -> thank_you_stars(token)
       {:error, emessage} -> IO.puts(emessage)
     end
   end
 
-  defp thank_you_stars(client) do
+  defp thank_you_stars(token) do
     ThankYouStars.load_deps_packages()
-    |> Enum.map(&(ThankYouStars.star_package(&1, client) |> IO.puts()))
+    |> Enum.map(&(ThankYouStars.star_package(&1, token) |> IO.puts()))
   end
 end

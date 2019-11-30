@@ -22,11 +22,16 @@ defmodule ThankYouStarsSpec do
     )
 
     allow(
-      Tentacat
+      HTTPoison
       |> to(
         accept(:put, fn
-          _, :correct -> {204, nil, nil}
-          _, :error -> {404, nil, nil}
+          "https://api.github.com/user/starred/antonmi/espec",
+          _,
+          [{"Authorization", "token CORRECT_TOKEN"}] ->
+            {:ok, %{status_code: 204, body: ""}}
+
+          _, _, _ ->
+            {:error, nil}
         end)
       )
     )
@@ -79,28 +84,28 @@ defmodule ThankYouStarsSpec do
   describe "star_package" do
     it "existed package in hex.pm and correct response" do
       expect(
-        star_package("espec", :correct)
+        star_package("espec", "CORRECT_TOKEN")
         |> to(eq("Starred! https://github.com/antonmi/espec"))
       )
     end
 
     it "existed package in hex.pm and error response" do
       expect(
-        star_package("espec", :error)
+        star_package("espec", "")
         |> to(eq("Error    https://github.com/antonmi/espec"))
       )
     end
 
     it "not existed package in hex.pm and correct response" do
       expect(
-        star_package("thank_you_stars", :correct)
+        star_package("thank_you_stars", "CORRECT_TOKEN")
         |> to(eq("Error    thank_you_stars"))
       )
     end
 
     it "not existed package in hex.pm and error response" do
       expect(
-        star_package("thank_you_stars", :error)
+        star_package("thank_you_stars", "")
         |> to(eq("Error    thank_you_stars"))
       )
     end
@@ -157,14 +162,14 @@ defmodule ThankYouStarsSpec do
 
     it "correct respponse" do
       expect(
-        star_github_package(url(), :correct)
+        star_github_package(url(), "CORRECT_TOKEN")
         |> to(eq({:ok, url()}))
       )
     end
 
     it "error respponse" do
       expect(
-        star_github_package(url(), :error)
+        star_github_package(url(), "")
         |> to(eq({:error, url()}))
       )
     end
