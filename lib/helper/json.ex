@@ -2,7 +2,7 @@ defmodule ThankYouStars.JSON do
   alias ThankYouStars.Result, as: Result
 
   def decode(str) do
-    match_object(%{rest: String.trim(str), result: %{}})
+    match_value(%{rest: String.trim(str), result: %{}})
     |> case do
       {:ok, %{rest: "", result: result}} -> Result.success(result)
       {_, %{rest: rest}} -> Result.failure(rest)
@@ -62,9 +62,18 @@ defmodule ThankYouStars.JSON do
   defp match_object_body_tail(stat = %{rest: "}" <> _}), do: Result.success(stat)
 
   defp match_object_body_tail(stat = %{rest: "," <> rest}) do
-    Map.put(stat, :rest, rest)
-    |> trim_leading()
-    |> match_object_body()
+    case String.trim_leading(rest) do
+      "" ->
+        Result.failure(stat)
+
+      "}" <> _ ->
+        Result.failure(stat)
+
+      _ ->
+        Map.put(stat, :rest, rest)
+        |> trim_leading()
+        |> match_object_body()
+    end
   end
 
   defp match_object_body_tail(stat), do: Result.failure(stat)
@@ -78,9 +87,13 @@ defmodule ThankYouStars.JSON do
   defp match_string_body(stat) do
     {value, rest} = compile_string(stat[:rest])
 
-    Map.put(stat, :result, value)
-    |> Map.put(:rest, rest)
-    |> Result.success()
+    if value == nil do
+      Result.failure(stat)
+    else
+      Map.put(stat, :result, value)
+      |> Map.put(:rest, rest)
+      |> Result.success()
+    end
   end
 
   def compile_string(""), do: {"", ""}
@@ -112,12 +125,22 @@ defmodule ThankYouStars.JSON do
 
         "t" <> rest ->
           {"\t", rest}
-          # "u" <> rest -> _ # ToDo
+
+        # ToDo
+        "u" <> rest ->
+          {"", rest}
+
+        _ ->
+          {nil, rest}
       end
 
-    case compile_string(rest) do
-      {"", rest} -> {body, rest}
-      {next, rest} -> {body <> next, rest}
+    if body == nil do
+      {body, rest}
+    else
+      case compile_string(rest) do
+        {"", rest} -> {body, rest}
+        {next, rest} -> {body <> next, rest}
+      end
     end
   end
 
@@ -179,8 +202,13 @@ defmodule ThankYouStars.JSON do
 
   defp match_array_body_tail(stat = %{rest: "]" <> _}), do: Result.success(stat)
 
-  defp match_array_body_tail(stat = %{rest: "," <> rest}),
-    do: match_array_body(Map.put(stat, :rest, rest))
+  defp match_array_body_tail(stat = %{rest: "," <> rest}) do
+    case String.trim_leading(rest) do
+      "" -> Result.failure(stat)
+      "]" <> _ -> Result.failure(stat)
+      _ -> match_array_body(Map.put(stat, :rest, rest))
+    end
+  end
 
   defp match_array_body_tail(stat), do: Result.failure(stat)
 
@@ -211,7 +239,7 @@ defmodule ThankYouStars.JSON do
         {"", _} ->
           nil
 
-        {"0" <> num, ""} when num == "" ->
+        {"0" <> num, ""} when num != "" ->
           nil
 
         {_, "." <> num} when num == "" ->
