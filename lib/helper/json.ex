@@ -2,89 +2,104 @@ defmodule ThankYouStars.JSON do
   alias ThankYouStars.Result, as: Result
 
   def decode(str) do
-    match_value(%{rest: String.trim(str), result: %{}})
+    init_stat(str)
+    |> match_element()
     |> case do
       {:ok, %{rest: "", result: result}} -> Result.success(result)
       {_, %{rest: rest}} -> Result.failure(rest)
     end
   end
 
-  def match_object(stat) do
+  # Functions for Parser State
+
+  defp init_stat(str), do: %{rest: str, result: %{}}
+
+  defp update_stat(stat, :rest, v), do: Result.success(Map.put(stat, :rest, v))
+  defp update_stat(stat, :result, v), do: Result.success(Map.put(stat, :result, v))
+  defp update_stat(stat, _, _), do: Result.failure(stat)
+
+  defp modify_stat(stat, :rest, f), do: Result.success(Map.update(stat, :rest, "", f))
+  defp modify_stat(stat, :result, f), do: Result.success(Map.update(stat, :result, %{}, f))
+  defp modify_stat(stat, _, _), do: Result.failure(stat)
+  # defp update_stat(rest, stat), do: Map.put(stat, :rest, rest)
+
+  # Parsers
+
+  defp match_value(%{rest: "true" <> rest}), do: Result.success(%{result: true, rest: rest})
+  defp match_value(%{rest: "false" <> rest}), do: Result.success(%{result: false, rest: rest})
+  defp match_value(%{rest: "null" <> rest}), do: Result.success(%{result: nil, rest: rest})
+  defp match_value(stat = %{rest: "\"" <> _}), do: match_string(stat)
+  defp match_value(stat = %{rest: "[" <> _}), do: match_array(stat)
+  defp match_value(stat = %{rest: "{" <> _}), do: match_object(stat)
+  defp match_value(stat), do: match_number(stat)
+
+  defp match_object(stat) do
     match_left_par(stat)
     |> Result.map(&trim_leading(&1))
-    |> Result.and_then(&match_object_body(&1))
-    |> Result.map(&trim_leading(&1))
+    |> Result.and_then(&update_stat(&1, :result, %{}))
+    |> Result.and_then(&parse_when_unmatch_by(&1, "}", fn s -> match_members(s) end))
     |> Result.and_then(&match_right_par(&1))
   end
 
-  defp match_left_par(stat = %{rest: "{" <> rest}), do: Result.success(Map.put(stat, :rest, rest))
-  defp match_left_par(stat), do: Result.failure(stat)
+  defp match_members(stat) do
+    match_member(stat)
+    |> Result.and_then(&match_members_tail(&1))
+  end
 
-  defp match_right_par(stat = %{rest: "}" <> rest}),
-    do: Result.success(Map.put(stat, :rest, rest))
+  defp match_members_tail(stat = %{rest: "," <> rest}) do
+    update_stat(stat, :rest, rest)
+    |> Result.and_then(&match_members(&1))
+  end
 
-  defp match_right_par(stat), do: Result.failure(stat)
+  defp match_members_tail(stat), do: Result.success(stat)
 
-  defp match_left_square(stat = %{rest: "[" <> rest}),
-    do: Result.success(Map.put(stat, :rest, rest))
-
-  defp match_left_square(stat), do: Result.failure(stat)
-
-  defp match_right_square(stat = %{rest: "]" <> rest}),
-    do: Result.success(Map.put(stat, :rest, rest))
-
-  defp match_right_square(stat), do: Result.failure(stat)
-
-  defp match_colon(stat = %{rest: ":" <> rest}), do: Result.success(Map.put(stat, :rest, rest))
-  defp match_colon(stat), do: Result.failure(stat)
-
-  defp match_double_quote(stat = %{rest: "\"" <> rest}),
-    do: Result.success(Map.put(stat, :rest, rest))
-
-  defp match_double_quote(stat), do: Result.failure(stat)
-
-  defp match_object_body(stat = %{rest: "}" <> _}), do: Result.success(stat)
-
-  defp match_object_body(stat = %{result: prev}) do
-    case match_string(stat) do
+  defp match_member(stat = %{result: prev}) do
+    case match_string(trim_leading(stat)) do
       {:error, stat} ->
         Result.failure(stat)
 
       {:ok, stat = %{result: key}} ->
         trim_leading(stat)
         |> match_colon()
-        |> Result.and_then(&match_value(&1))
-        |> Result.and_then(&put_to_result(prev, key, &1))
-        |> Result.and_then(&match_object_body_tail(&1))
+        |> Result.and_then(&match_element(&1))
+        |> Result.and_then(&modify_stat(&1, :result, fn v -> Map.put(prev, key, v) end))
     end
   end
 
-  defp match_object_body_tail(stat = %{rest: "}" <> _}), do: Result.success(stat)
-
-  defp match_object_body_tail(stat = %{rest: "," <> rest}) do
-    case String.trim_leading(rest) do
-      "" ->
-        Result.failure(stat)
-
-      "}" <> _ ->
-        Result.failure(stat)
-
-      _ ->
-        Map.put(stat, :rest, rest)
-        |> trim_leading()
-        |> match_object_body()
-    end
+  defp match_array(stat) do
+    match_left_square(stat)
+    |> Result.map(&trim_leading(&1))
+    |> Result.and_then(&update_stat(&1, :result, []))
+    |> Result.and_then(&parse_when_unmatch_by(&1, "]", fn s -> match_elements(s) end))
+    |> Result.and_then(&match_right_square(&1))
   end
 
-  defp match_object_body_tail(stat), do: Result.failure(stat)
+  defp match_elements(stat = %{result: prev}) do
+    match_element(stat)
+    |> Result.and_then(&modify_stat(&1, :result, fn v -> prev ++ [v] end))
+    |> Result.and_then(&match_elements_tail(&1))
+  end
+
+  defp match_elements_tail(stat = %{rest: "," <> rest}) do
+    update_stat(stat, :rest, rest)
+    |> Result.and_then(&match_elements(&1))
+  end
+
+  defp match_elements_tail(stat), do: Result.success(stat)
+
+  defp match_element(stat) do
+    trim_leading(stat)
+    |> match_value()
+    |> Result.map(&trim_leading(&1))
+  end
 
   defp match_string(stat) do
     match_double_quote(stat)
-    |> Result.and_then(&match_string_body(&1))
+    |> Result.and_then(&match_characters(&1))
     |> Result.and_then(&match_double_quote(&1))
   end
 
-  defp match_string_body(stat) do
+  defp match_characters(stat) do
     {value, rest} = compile_string(stat[:rest])
 
     if value == nil do
@@ -154,64 +169,6 @@ defmodule ThankYouStars.JSON do
     end
   end
 
-  defp match_value(stat) do
-    trim_leading(stat)
-    |> match_value_body()
-    |> Result.map(&trim_leading(&1))
-  end
-
-  defp match_value_body(stat = %{rest: "true" <> rest}) do
-    Map.put(stat, :result, true)
-    |> Map.put(:rest, rest)
-    |> Result.success()
-  end
-
-  defp match_value_body(stat = %{rest: "false" <> rest}) do
-    Map.put(stat, :result, false)
-    |> Map.put(:rest, rest)
-    |> Result.success()
-  end
-
-  defp match_value_body(stat = %{rest: "null" <> rest}) do
-    Map.put(stat, :result, nil)
-    |> Map.put(:rest, rest)
-    |> Result.success()
-  end
-
-  defp match_value_body(stat = %{rest: "\"" <> _}), do: match_string(stat)
-  defp match_value_body(stat = %{rest: "[" <> _}), do: match_array(stat)
-  defp match_value_body(stat = %{rest: "{" <> _}), do: match_object(Map.put(stat, :result, %{}))
-  defp match_value_body(stat), do: match_number(stat)
-
-  defp match_array(stat) do
-    match_left_square(stat)
-    |> Result.map(&trim_leading(&1))
-    |> Result.and_then(&match_array_body(Map.put(&1, :result, [])))
-    |> Result.map(&trim_leading(&1))
-    |> Result.and_then(&match_right_square(&1))
-  end
-
-  defp match_array_body(stat = %{rest: "]" <> _}), do: Result.success(stat)
-
-  defp match_array_body(stat = %{result: prev}) do
-    match_value(stat)
-    |> Result.and_then(&push_to_result(prev, &1))
-    |> Result.map(&trim_leading(&1))
-    |> Result.and_then(&match_array_body_tail(&1))
-  end
-
-  defp match_array_body_tail(stat = %{rest: "]" <> _}), do: Result.success(stat)
-
-  defp match_array_body_tail(stat = %{rest: "," <> rest}) do
-    case String.trim_leading(rest) do
-      "" -> Result.failure(stat)
-      "]" <> _ -> Result.failure(stat)
-      _ -> match_array_body(Map.put(stat, :rest, rest))
-    end
-  end
-
-  defp match_array_body_tail(stat), do: Result.failure(stat)
-
   defp match_number(stat) do
     {value, rest} = compile_number(stat[:rest])
 
@@ -261,19 +218,28 @@ defmodule ThankYouStars.JSON do
     {value, rest}
   end
 
-  defp put_to_result(result, key, stat = %{result: value}) do
-    Map.put(stat, :result, Map.put(result, key, value))
-    |> Result.success()
+  # Helper Parsers
+
+  defp match_char_by(c, stat) do
+    case String.split(stat[:rest], "", parts: 3) do
+      ["", ^c, rest] -> Result.success(Map.put(stat, :rest, rest))
+      _ -> Result.failure(stat)
+    end
   end
 
-  defp put_to_result(_, _, stat), do: Result.failure(stat)
+  defp match_left_par(stat), do: match_char_by("{", stat)
+  defp match_right_par(stat), do: match_char_by("}", stat)
+  defp match_left_square(stat), do: match_char_by("[", stat)
+  defp match_right_square(stat), do: match_char_by("]", stat)
+  defp match_colon(stat), do: match_char_by(":", stat)
+  defp match_double_quote(stat), do: match_char_by("\"", stat)
 
-  defp push_to_result(result, stat = %{result: value}) do
-    Map.put(stat, :result, result ++ [value])
-    |> Result.success()
+  defp parse_when_unmatch_by(stat, c, f) do
+    case String.split(stat[:rest], "", parts: 3) do
+      ["", ^c, _] -> Result.success(stat)
+      _ -> f.(stat)
+    end
   end
-
-  defp push_to_result(_, stat), do: Result.failure(stat)
 
   defp trim_leading(stat), do: Map.update(stat, :rest, "", &String.trim_leading(&1))
 end
