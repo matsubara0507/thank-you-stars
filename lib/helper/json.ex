@@ -95,78 +95,78 @@ defmodule ThankYouStars.JSON do
 
   defp match_string(stat) do
     match_double_quote(stat)
+    |> Result.and_then(&update_stat(&1, :result, ""))
     |> Result.and_then(&match_characters(&1))
     |> Result.and_then(&match_double_quote(&1))
   end
 
+  defp match_characters(stat = %{rest: ""}), do: Result.success(stat)
+  defp match_characters(stat = %{rest: "\"" <> _}), do: Result.success(stat)
+
   defp match_characters(stat) do
-    {value, rest} = compile_string(stat[:rest])
+    parse_when_unmatch_by(stat, "\\", &match_noescape_characters(&1))
+    |> Result.and_then(&match_escape(&1))
+    |> Result.and_then(&match_characters(&1))
+  end
 
-    if value == nil do
-      Result.failure(stat)
-    else
-      Map.put(stat, :result, value)
-      |> Map.put(:rest, rest)
-      |> Result.success()
+  defp match_escape(%{rest: "\\\"" <> rest, result: prev}),
+    do: update_stat(%{result: prev <> "\""}, :rest, rest)
+
+  defp match_escape(%{rest: "\\\\" <> rest, result: prev}),
+    do: update_stat(%{result: prev <> "\\"}, :rest, rest)
+
+  defp match_escape(%{rest: "\\\/" <> rest, result: prev}),
+    do: update_stat(%{result: prev <> "\/"}, :rest, rest)
+
+  defp match_escape(%{rest: "\\b" <> rest, result: prev}),
+    do: update_stat(%{result: prev <> "\b"}, :rest, rest)
+
+  defp match_escape(%{rest: "\\f" <> rest, result: prev}),
+    do: update_stat(%{result: prev <> "\f"}, :rest, rest)
+
+  defp match_escape(%{rest: "\\n" <> rest, result: prev}),
+    do: update_stat(%{result: prev <> "\n"}, :rest, rest)
+
+  defp match_escape(%{rest: "\\r" <> rest, result: prev}),
+    do: update_stat(%{result: prev <> "\r"}, :rest, rest)
+
+  defp match_escape(%{rest: "\\t" <> rest, result: prev}),
+    do: update_stat(%{result: prev <> "\t"}, :rest, rest)
+
+  defp match_escape(stat = %{rest: "\\u" <> rest, result: prev}) do
+    case Regex.named_captures(~r/(?<body>[\dA-Fa-f]{4,4})(?<rest>.*)/s, rest) do
+      %{"body" => body, "rest" => rest} ->
+        case hex_to_string(body) do
+          nil -> Result.failure(stat)
+          hex -> update_stat(%{result: prev <> hex}, :rest, rest)
+        end
+
+      _ ->
+        Result.failure(stat)
     end
   end
 
-  def compile_string(""), do: {"", ""}
-  def compile_string(str = "\"" <> _), do: {"", str}
+  defp match_escape(stat = %{rest: "\\" <> _}), do: Result.failure(stat)
+  defp match_escape(stat), do: Result.success(stat)
 
-  def compile_string("\\" <> rest) do
-    {body, rest} =
-      case rest do
-        "\"" <> rest ->
-          {"\"", rest}
-
-        "\\" <> rest ->
-          {"\\", rest}
-
-        "\/" <> rest ->
-          {"\/", rest}
-
-        "b" <> rest ->
-          {"\b", rest}
-
-        "f" <> rest ->
-          {"\f", rest}
-
-        "n" <> rest ->
-          {"\n", rest}
-
-        "r" <> rest ->
-          {"\r", rest}
-
-        "t" <> rest ->
-          {"\t", rest}
-
-        # ToDo
-        "u" <> rest ->
-          {"", rest}
-
-        _ ->
-          {nil, rest}
-      end
-
-    if body == nil do
-      {body, rest}
-    else
-      case compile_string(rest) do
-        {"", rest} -> {body, rest}
-        {next, rest} -> {body <> next, rest}
-      end
+  defp hex_to_string(str) do
+    try do
+      {hex, _} = Integer.parse(str, 16)
+      <<hex::utf8>>
+    rescue
+      _ -> nil
     end
   end
 
-  def compile_string(str) do
+  defp match_noescape_characters(stat = %{rest: "\n" <> _}), do: Result.failure(stat)
+  defp match_noescape_characters(stat = %{rest: "\t" <> _}), do: Result.failure(stat)
+  defp match_noescape_characters(stat = %{rest: "\u0000" <> _}), do: Result.failure(stat)
+
+  defp match_noescape_characters(stat = %{result: prev}) do
     %{"body" => body, "rest" => rest} =
-      Regex.named_captures(~r/(?<body>[^\\\"]*)(?<rest>.*)/s, str)
+      Regex.named_captures(~r/(?<body>[^\\\"\n\x00\t]*)(?<rest>.*)/s, stat[:rest])
 
-    case compile_string(rest) do
-      {"", rest} -> {body, rest}
-      {next, rest} -> {body <> next, rest}
-    end
+    update_stat(%{result: prev <> body}, :rest, rest)
   end
 
   defp match_number(stat) do
