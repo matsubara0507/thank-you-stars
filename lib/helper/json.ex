@@ -21,7 +21,6 @@ defmodule ThankYouStars.JSON do
   defp modify_stat(stat, :rest, f), do: Result.success(Map.update(stat, :rest, "", f))
   defp modify_stat(stat, :result, f), do: Result.success(Map.update(stat, :result, %{}, f))
   defp modify_stat(stat, _, _), do: Result.failure(stat)
-  # defp update_stat(rest, stat), do: Map.put(stat, :rest, rest)
 
   # Parsers
 
@@ -185,31 +184,37 @@ defmodule ThankYouStars.JSON do
 
   # ToDo: exponent
   def compile_number(str) do
-    %{"minus" => minus, "digit" => digit, "frac" => frac, "rest" => rest} =
+    %{"minus" => minus, "digit" => digit, "frac" => frac, "exp" => exp, "rest" => rest} =
       Regex.named_captures(
-        ~r/(?<minus>-?)(?<digit>[[:digit:]]*)(?<frac>\.?[[:digit:]]*)(?<rest>.*)/s,
+        ~r/(?<minus>-?)(?<digit>[[:digit:]]*)(?<frac>\.?[[:digit:]]*)(?<exp>[eE]?[-+]?[[:digit:]]*)(?<rest>.*)/s,
         str
       )
 
     value =
-      case {digit, frac} do
-        {"", _} ->
+      case {digit, frac, exp} do
+        {"", _, _} ->
           nil
 
-        {"0" <> num, ""} when num != "" ->
+        {"0" <> num, "", ""} when num != "" ->
           nil
 
-        {_, "." <> num} when num == "" ->
+        {_, "." <> num, _} when num == "" ->
           nil
 
-        {_, ""} ->
+        {_, _, "e" <> num} when num == "" ->
+          nil
+
+        {_, _, "E" <> num} when num == "" ->
+          nil
+
+        {_, "", ""} ->
           case Integer.parse(minus <> digit) do
             {num, ""} -> num
             _ -> nil
           end
 
         _ ->
-          case Float.parse(minus <> digit <> frac) do
+          case Float.parse(minus <> digit <> frac <> exp) do
             {num, ""} -> num
             _ -> nil
           end
