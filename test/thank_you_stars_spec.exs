@@ -60,7 +60,7 @@ defmodule ThankYouStarsSpec do
 
     context "no json" do
       before(do: allow(File |> to(accept(:read, fn _ -> {:ok, ""} end))))
-      it(do: expect(load_token() |> to(eq({:error, :invalid}))))
+      it(do: expect(load_token() |> to(eq({:error, ""}))))
     end
 
     context "not have token field" do
