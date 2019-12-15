@@ -35,12 +35,10 @@ Then it scans the `mix.deps` and scrape the Hex.pm,
 stars your dependent libraries if they are hosted on GitHub.
 
 ```console
-$  mix thank_you_stars
+$ mix thank_you_stars
 Starred! https://github.com/antonmi/espec
+Starred! https://github.com/elixir-lang/ex_doc
 Starred! https://github.com/edgurgel/httpoison
-Starred! https://github.com/CrowdHailer/OK
-Starred! https://github.com/devinus/poison
-Starred! https://github.com/edgurgel/tentacat
 ```
 
 ## Acknowledgement
